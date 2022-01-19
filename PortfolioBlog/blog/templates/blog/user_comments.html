@@ -1,0 +1,65 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block content %}
+      <h1 class="mb-3">Comments by {{ view.kwargs.username }} ({{ page_obj.paginator.count }})</h1>
+
+        {% for comment in comments %}
+          <div class="comment-container">
+            <article class="media content-section d-flex mb-2">
+              <img class="rounded-circle article-img" src="{{ comment.post.author.profile.image.url }}">
+              <div class="media-body">
+                <div class="article-metadata">
+                  <a class="me-2" href="{% url 'profile_viewable' comment.post.author %}">{{ comment.post.author }}</a>
+                  <small class="text-muted">{{ comment.post.date_posted|date:"F d, Y" }}</small>
+                </div>
+                <h2><a class="article-title" href="{% url 'post-detail' comment.post.id %}">{{ comment.post.title }}</a></h2>
+              </div>
+            </article>
+            <div class="post-comments">
+              <div class="comments">
+                  <div class="comment-author d-flex">
+                      <p class="font-weight-bold">
+                        {{ comment.name }},
+                        <small class="ms-1 text-muted">
+                          {{ comment.created_on|date:"F d, Y" }}
+                        </small>
+                      </p>
+                      {% if view.kwargs.username == user.username %}
+                        <div class="comment-edit-buttons">
+                          <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'comment-update' comment.name comment.id %}">Update</a>
+                          <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'comment-delete' comment.name comment.id %}">Delete</a>
+                        </div>
+                      {% endif %}
+                  </div>
+                  <p>
+                    {{ comment.body | linebreaks }}
+                  </p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+
+    {% if is_paginated %}
+        {% if page_obj.has_previous %}
+            <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+    {% endif %}
+{% endblock content %}
+
+{% block extrascripts %}
+        <script type="text/JavaScript" src="{%  static 'blog/js/user_comments.js' %}"></script>
+{% endblock extrascripts %}

@@ -1,0 +1,228 @@
+body {
+  background: #fafafa;
+  color: #333333;
+  margin-top: 5rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #444444;
+}
+
+ul {
+  margin: 0;
+}
+
+.bg-steel {
+  background-color: #5f788a;
+}
+
+.site-header .navbar-nav .nav-link {
+  color: #cbd5db;
+}
+
+.site-header .navbar-nav .nav-link:hover {
+  color: #ffffff;
+}
+
+.site-header .navbar-nav .nav-link.active {
+  font-weight: 500;
+}
+
+.content-section {
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
+
+.article-title {
+  color: #444444;
+  text-decoration: none;
+}
+
+a.article-title:hover {
+  color: #428bca;
+  text-decoration: none;
+}
+
+.article-content {
+  white-space: pre-line;
+}
+
+.article-img {
+  height: 65px;
+  width: 65px;
+  margin-right: 16px;
+}
+
+.article-metadata {
+  padding-bottom: 4px;
+  border-bottom: 1px solid #e3e3e3
+
+}
+
+div.media-body h2 {
+    margin-top: 6px;
+}
+
+.article-metadata a {
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.article-metadata a:hover {
+  color: #333;
+  text-decoration: none;
+}
+
+.article-svg {
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+}
+
+.account-img {
+  height: 125px;
+  width: 125px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+}
+
+.account-heading {
+  font-size: 2.5rem;
+}
+
+
+.profile-banner {
+  justify-content: space-between;
+}
+
+.user-posts-comments {
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.user-posts-comments a {
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 500;
+  color: #444444;
+  padding-bottom: 7px;
+}
+
+.user-posts-comments a:hover {
+  text-decoration: underline;
+}
+
+#profile-pass-reset-header {
+  font-weight: 400 !important;
+}
+
+#profile-pass-reset {
+  text-decoration: none;
+  color: #444444;
+  font-size: 16px;
+  margin-left: 1px;
+}
+
+#profile-pass-reset:hover {
+  text-decoration: underline;
+}
+
+
+.post-comments {
+  margin-bottom: 30px;
+  margin-left: 40px;
+}
+
+#listview-comments {
+   text-decoration: none;
+   color: #444444;
+}
+
+#listview-comments:hover {
+   text-decoration: underline;
+}
+
+.comment-author {
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+/* POST DETAIL PAGE, COMMENT RELATED CSS START */
+
+.comments {
+  border-left: 2px solid #F3F3F3;
+  background-color: white;
+  padding: 15px;
+  padding-bottom: 5px;
+}
+
+.comments p:nth-child(2) {
+  margin-left: 10px;
+}
+
+.comment-box {
+  background: #F6F6F6;
+  border-left: 1px solid #E8E8E8;
+  margin: 0px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-right: 3px;
+  padding-left: 16px;
+}
+
+.commenter {
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.commenter:hover {
+  color: #333;
+  text-decoration: none;
+}
+
+
+
+.comment-reply {
+  font-size: 12px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-right: 3px;
+  padding-left: 3px;
+}
+
+.comment-reply:hover {
+  border: 1px solid black;
+  background: #E8E8E8;
+}
+
+.child-comments {
+  margin-left: 40px;
+}
+
+div.comment-descendants > p > button {
+  font-size: 14px;
+}
+
+.card {
+  padding: 0;
+  margin-left: 15px;
+  border-bottom: none;
+  border-top: none;
+  border-right: none;
+}
+
+/* POST DETAIL PAGE, COMMENT RELATED CSS END */
+
+/* user-comments listview, comment-author div's author and its p */
+body > main > div > div.col-md-8 > div > div > div {
+  padding: 20px;
+  padding-top: 5px;
+  padding-bottom: 10px;
+}
+
+body > main > div > div.col-md-8 > div > div > div > div > p {
+  margin-bottom: 0;
+}

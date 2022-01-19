@@ -1,0 +1,133 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% load post_extras %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <article class="media content-section d-flex">
+      <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">
+      <div class="media-body">
+        <div class="article-metadata">
+          <a class="me-2" href="{% url 'profile_viewable' object.author.username %}">{{ object.author }}</a>
+          <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
+          {% if object.author == user %}
+            <div>
+              <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
+              <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
+            </div>
+          {% endif %}
+        </div>
+        <h2 class="article-title">{{ object.title }}</h2>
+        <p class="article-content">{{ object.content }}</p>
+      </div>
+    </article>
+    <div class="post-comments">
+      {% for comment in comments %}
+        {% if not comment.parent_comment %}
+            <div id="comment-{{ comment.pk }}" class="comments">
+              <div class="comment-itself">
+                  <p class="comment-metadata">
+                      {% if author_profiles|get_item:comment.name %}
+                        <a class="commenter" class="me-2" href="{% url 'profile_viewable' comment.name %}">{{ comment.name }}</a>,
+                      {% else %}
+                        {{ comment.name }},
+                      {% endif %}
+                      <small class="ms-1 text-muted">
+                      {{ comment.created_on|date:"F d, Y" }}
+                    </small>
+                  </p>
+                  <p class="comment-box">
+                    {{ comment.body }}
+                  </p>
+                  <p>
+                    <button class="btn ms-4 mt-2 comment-reply" type="button" data-bs-toggle="collapse" data-bs-target="#collapseReply-{{ comment.pk }}-parentless" aria-expanded="false" aria-controls="collapseReply">
+                      Reply
+                    </button>
+                  </p>
+                  <div class="collapse" id="collapseReply-{{ comment.pk }}-parentless">
+                    <div class="new-comment" style="height: 60%; width: 60%; margin-left: 40px;">
+                        <h4>Leave a comment</h4>
+                        <form method="post" class="mt-4">
+                          <input type="hidden" name="parent-comment-pk" id="parent-comment-{{ comment.pk }}" value="{{ comment.pk }}">
+                          {{ form|crispy }}
+                          {% csrf_token %}
+                          <button type="submit" class="btn btn-primary btn-md">Submit</button>
+                        </form>
+                    </div>
+                  </div>
+              </div>
+              <div class="comment-descendants">
+                   <p>
+                     <button class="btn comment-collapse-btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapseComments-{{ comment.pk }}" aria-expanded="false" aria-controls="collapseComments-{{ comment.pk }}">
+                        (-) {{ comment.child_comments.count }} Comments
+                     </button>
+                  </p>
+                  <div class="collapse show" id="collapseComments-{{ comment.pk }}">
+                      <div class="card card-body">
+                          <div class="comments-children"></div>
+                      </div>
+                  </div>
+                </div>
+            </div>
+        {% else %}
+            <div id="comment-{{ comment.pk }}-alt" class="comments son-of-pk-{{ comment.parent_comment.pk }}">
+                <div class="comment-itself">
+                  <p class="comment-metadata">
+                    {% if author_profiles|get_item:comment.name %}
+                      <a class="commenter" class="me-2" href="{% url 'profile_viewable' comment.name %}">{{ comment.name }}</a>,
+                    {% else %}
+                      {{ comment.name }},
+                    {% endif %}
+                    <small class="ms-1 text-muted">
+                      {{ comment.created_on|date:"F d, Y" }}
+                    </small>
+                  </p>
+                  <p class="comment-box">
+                    {{ comment.body }}
+                  </p>
+                  <p>
+                    <button class="btn ms-4 mt-2 comment-reply" type="button" data-bs-toggle="collapse" data-bs-target="#collapseReply-{{ comment.pk }}-parent-{{ comment.parent_comment.pk }}" aria-expanded="false" aria-controls="collapseReply">
+                      Reply
+                    </button>
+                  </p>
+                  <div class="collapse" id="collapseReply-{{ comment.pk }}-parent-{{ comment.parent_comment.pk }}">
+                    <div class="new-comment" style="height: 60%; width: 60%; margin-left: 40px;">
+                        <h4>Leave a comment</h4>
+                        <form method="post" class="mt-4">
+                          <input type="hidden" name="parent-comment-pk" id="parent-comment-pk" value="{{ comment.pk }}">
+                          {{ form|crispy }}
+                          {% csrf_token %}
+                          <button type="submit" class="btn btn-primary btn-md">Submit</button>
+                        </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="comment-descendants">
+                    <p>
+                      <button class="btn comment-collapse-btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapseComments-alt-{{ comment.pk }}" aria-expanded="false" aria-controls="collapseComments-alt-{{ comment.pk }}">
+                        (-) {{ comment.child_comments.count }} Comments
+                      </button>
+                    </p>
+                    <div class="collapse show" id="collapseComments-alt-{{ comment.pk }}">
+                        <div class="card card-body">
+                            <div class="comments-children"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+    <div class="new-comment">
+        <h3>Leave a comment</h3>
+        <form method="post" class="mt-4">
+          <input type="hidden" name="parent-comment-none" id="parent-comment-none" value="none">
+          {{ form|crispy }}
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+        </form>
+    </div>
+{% endblock content %}
+
+{% block extrascripts %}
+        <script type="text/JavaScript" src="{%  static 'blog/js/post_detail_comment_nesting.js' %}"></script>
+{% endblock extrascripts %}

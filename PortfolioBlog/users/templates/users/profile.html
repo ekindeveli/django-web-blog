@@ -1,0 +1,38 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+  <div class="content-section">
+        <div class="d-flex profile-banner">
+            <div class="media d-flex">
+                <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+                <div class="media-body">
+                    <h2 class="account-heading">{{ user.username }}</h2>
+                    <p class="text-secondary mb-2"> {{ user.email }}</p>
+                </div>
+            </div>
+            <div class="d-flex user-posts-comments">
+                <a href="{% url 'user-posts' user.username %}">Posts</a>
+                <a href="{% url 'user-comments' user.username %}">Comments</a>
+            </div>
+        </div>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Profile Info</legend>
+                {{ u_form|crispy }}
+                {{ p_form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Update</button>
+            </div>
+        </form>
+        <div>
+            <h4 id="profile-pass-reset-header" class="mt-4 mb-3 border-bottom">Password Reset</h4>
+            <small class="text-muted ">
+                <a id="profile-pass-reset" href="{% url 'password_reset' %}">Request Password Reset</a>
+            </small>
+        </div>
+  </div>
+{% endblock content%}
+
+
