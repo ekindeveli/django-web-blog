@@ -7,8 +7,9 @@ window.addEventListener("load", function(){
        var sonOf = comment.slice(-1); // check if this comment has a father comment
        // if the last char of the class name of the comment are int numbers (son of someone)
        if(!isNaN(parseInt(sonOf))) {
-         var parentQuery1 = 'comment-' + sonOf;
-         var parentQuery2 = 'comment-' + sonOf + '-alt';
+         var fatherPK = comment.split("-").at(-1); // check if this comment has a father comment
+         var parentQuery1 = 'comment-' + fatherPK;
+         var parentQuery2 = 'comment-' + fatherPK + '-alt';
          parentOptionOne = document.getElementById(parentQuery1)
          if (parentOptionOne == null) {
             var nodes = document.querySelectorAll('#' + parentQuery2 + ' div.comment-descendants > div.collapse > div.card > div.comments-children');
